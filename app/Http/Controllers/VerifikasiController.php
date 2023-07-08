@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class VerifikasiController extends Controller
 {
     public function notice(){
-        return 'akun sudah dibuat,silahkan verifikasi';
+        return \view('verifikasi.notif',[
+            'email' => Auth::user()->email,
+            'cek' => 'notice'
+        ]);
     }
     public function verify(EmailVerificationRequest $request){
         $request->fulfill();
@@ -17,6 +21,9 @@ class VerifikasiController extends Controller
 
     public function send(Request $request){
         $request->user()->sendEmailVerificationNotification();
-        return 'verifikasi ulang di kirim';
+        return \view('verifikasi.notif',[
+            'email' => Auth::user()->email,
+            'cek'=> 'send'
+        ]);
     }
 }

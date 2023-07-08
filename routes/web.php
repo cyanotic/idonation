@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DaftarDonasiController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\RegisterController;
@@ -19,8 +20,9 @@ use Illuminate\Support\Facades\Route;
 //halaman login
 Route::get('/', function () {
     return view('index');
-})->name('login');
-
+})->name('login')->middleware('guest');
+Route::post('/',[AuthController::class,'authenticate'])->middleware('guest');
+Route::get('/logout',[AuthController::class,'logout'])->middleware('auth');
 //halaman registrasi
 Route::get('/registrasi', function () {
     return view('registrasi.index');
@@ -34,7 +36,7 @@ Route::get('/email/verify/{id}/{hash}',[VerifikasiController::class,'verify'])->
 Route::get('/email/verify/resend-verifikasi',[VerifikasiController::class,'send'])->middleware(['auth','throttle:6,1'])->name('verification.send');
 
 //jika sudah login dan verifikasi
-Route::middleware(['auth','auth.session','verified'])->group(function(){
+Route::middleware(['auth','auth.session','verified','admin'])->group(function(){
     Route::get('/dashboard', function () {
         return view('dashboard');
     });
