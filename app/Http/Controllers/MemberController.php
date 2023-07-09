@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DaftarDonasi;
+use App\Models\Donasi;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -54,5 +55,29 @@ class MemberController extends Controller
             'snapToken'=>$snapToken
          ];
          return $response;
+    }
+
+    public function notifikasi(Request $request){
+      $transaksi = $request->response;//sudah jadi array assoc
+      $idDonasi = $request->idDonasi;
+     //simpan data ke tabel donasi
+      $donasi = Donasi::create([
+         'kode_donasi' => 'DNS -'. \date('Ymd'),
+         'user_id' => Auth::user()->id,
+         'daftar_donasi_id' => $idDonasi,
+         'snap_token' => $request->snapToken,
+         'jumlah' => $transaksi['gross_amount'],
+         'waktu_donasi' => $transaksi['transaction_time'],
+         'metode_pembayaran' => $transaksi['payment_type'],
+         'status' => $transaksi['transaction_status']
+      ]);
+
+      //update tabel daftar donasi kolom total donasinya dirubah
+      $daftarDonasi = DaftarDonasi::find($idDonasi);
+      $daftarDonasi->total_donasi += $transaksi['gross_amount'];
+      $daftarDonasi->save();
+
+      // return $donasi->kode_donasi;
+      return \redirect('/user-donasi/riwayat/'.$donasi->kode_donasi);
     }
 }

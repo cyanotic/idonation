@@ -16,18 +16,28 @@ $('#tombol-form-donasi').on('click',function(){
     function(response){
         snap.pay(response.snapToken, {
             onSuccess: function(result) {
-                sendResponse(result,response.idDonasi);
-                console.log(result);
+                sendResponse(result,response.idDonasi,response.snapToken)
             },
             onPending: function(result) {
-                sendResponse(result,response.idDonasi);
-                console.log(result);
+                sendResponse(result,response.idDonasi,response.snapToken)
             },
             onError: function(result) {
-                sendResponse(result,response.idDonasi);
-                console.log(result);
+                sendResponse(result,response.idDonasi,response.snapToken)
             }
         });
         return false;
     })
 })
+
+function sendResponse(response,idDonasi,snapToken){
+    $.post("/user-donasi/notification", {
+            _method: 'POST',
+            _token: $('meta[name="csrf-token"]').attr('content'),
+          response:response,
+          idDonasi:idDonasi,
+          snapToken:snapToken
+        },
+        function(response) {
+            window.location.href = "/user-donasi/riwayat/"+response;
+        });
+    }
