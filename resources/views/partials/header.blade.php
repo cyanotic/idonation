@@ -12,15 +12,15 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 
   <!-- CSS Libraries -->
-  <link rel="stylesheet" href="{{ asset('node_modules/jqvmap/dist/jqvmap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('node_modules/summernote/dist/summernote-bs4.css') }}">
-  <link rel="stylesheet" href="{{ asset('node_modules/owl.carousel/dist/assets/owl.carousel.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('node_modules/owl.carousel/dist/assets/owl.theme.default.min.css') }}">
+  <link rel="stylesheet" href="{{  secure_asset('node_modules/jqvmap/dist/jqvmap.min.css') }}">
+  <link rel="stylesheet" href="{{  secure_asset('node_modules/summernote/dist/summernote-bs4.css') }}">
+  <link rel="stylesheet" href="{{  secure_asset('node_modules/owl.carousel/dist/assets/owl.carousel.min.css') }}">
+  <link rel="stylesheet" href="{{  secure_asset('node_modules/owl.carousel/dist/assets/owl.theme.default.min.css') }}">
 
-  <link rel="stylesheet" href="{{ asset('node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
+  <link rel="stylesheet" href="{{  secure_asset('node_modules/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
   <!-- Template CSS -->
-  <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+  <link rel="stylesheet" href="{{  secure_asset('assets/css/style.css') }}">
+  <link rel="stylesheet" href="{{  secure_asset('assets/css/components.css') }}">
 </head>
 
 <body>

@@ -17,6 +17,7 @@ return new class extends Migration
     {
         Schema::create('donasis', function (Blueprint $table) {
             $table->id();
+            $table->string('order_id');
             $table->string('kode_donasi');
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(DaftarDonasi::class);

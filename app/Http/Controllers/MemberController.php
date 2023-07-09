@@ -32,7 +32,7 @@ class MemberController extends Controller
         \Midtrans\Config::$is3ds = true;
         $payload = [
             'transaction_details' => [
-               'order_id' => 'SANDBOX-' . \uniqid(),
+               'order_id' => 'IDonation-' . \uniqid(),
                'gross_amount' => $request->jumlah_donasi,
             ],
             'customer_details' => [
@@ -62,6 +62,7 @@ class MemberController extends Controller
       $idDonasi = $request->idDonasi;
      //simpan data ke tabel donasi
       $donasi = Donasi::create([
+         'order_id' => $transaksi['order_id'],
          'kode_donasi' => 'DNS -'. \date('Ymd').Str::random(3),
          'user_id' => Auth::user()->id,
          'daftar_donasi_id' => $idDonasi,
@@ -92,4 +93,35 @@ class MemberController extends Controller
          'invoice' => Donasi::where('kode_donasi',$kode)->first(),
       ]);
     }
+
+    public function callback(Request $request)
+    {
+      $serverKey = config('midtrans.server_key');
+      $hashed = \hash('sha512', $request->order_id.$request->status_code.$request->gross_amount.$serverKey); 
+      if($hashed == $request->signature_key){
+      //   if($request->transaction_status == 'settlement'){
+      //       $donasi = Donasi::where('order_id',$request->order_id)->first();
+      //       $donasi->update(['status'=> 'settlement'] );
+      //   }else if($request->transaction_status == 'pending'){
+      //       $donasi = Donasi::where('order_id',$request->order_id)->first();
+      //       $donasi->update(['status'=> 'pending'] );
+      //   }
+
+      if ($request->transaction_status == 'settlement'){
+         $donasi = Donasi::where('order_id',$request->order_id)->first();
+         $donasi->update(['status'=> 'settlement'] );
+      } else if ($request->transaction_status == 'cancel' ||
+       $request->transaction_status == 'deny' ||
+       $request->transaction_status == 'expire'){
+         $donasi = Donasi::where('order_id',$request->order_id)->first();
+         $donasi->update(['status'=> $request->transaction_status] );
+      } else if ($request->transaction_status == 'pending'){
+         $donasi = Donasi::where('order_id',$request->order_id)->first();
+         $donasi->update(['status'=> 'pending'] );
+      }
+
+      }
+    }
 }
+
+

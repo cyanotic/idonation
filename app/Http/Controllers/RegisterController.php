@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donasi;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
@@ -22,4 +23,6 @@ class RegisterController extends Controller
         \auth()->login($user);
         return \redirect('/email/verify/verification');
    }
+
+   
 }
