@@ -5,3 +5,7 @@ $(document).ready(function () {
 function submitDel(id) {
     $("#del-" + id).submit();
 }
+
+$(document).ready(function () {
+$('#form-donasi')
+});
