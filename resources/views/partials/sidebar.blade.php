@@ -31,8 +31,8 @@
                         class="fas fa-home"></i> <span>Dashboard</span></a></li>
             <li class="{{ request()->is('user-donasi*') ? 'active' : '' }}"><a class="nav-link"
                     href="/user-donasi"><i class="fas fa-hand-holding-usd"></i><span>Donasi</span></a></li>
-            <li class="{{ request()->is('user-riwayat*') ? 'active' : '' }}"><a class="nav-link"
-                    href="/user-riwayat"><i class="fas fa-book"></i><span>Riwayat
+            <li class="{{ request()->is('riwayat*') ? 'active' : '' }}"><a class="nav-link"
+                    href="/riwayat/invoice"><i class="fas fa-book"></i><span>Riwayat
                         Donasi</span></a></li>
         </ul>
     @endcan

@@ -7,7 +7,7 @@ use App\Models\Donasi;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Str;
 class MemberController extends Controller
 {
     public function index(){
@@ -62,7 +62,7 @@ class MemberController extends Controller
       $idDonasi = $request->idDonasi;
      //simpan data ke tabel donasi
       $donasi = Donasi::create([
-         'kode_donasi' => 'DNS -'. \date('Ymd'),
+         'kode_donasi' => 'DNS -'. \date('Ymd').Str::random(3),
          'user_id' => Auth::user()->id,
          'daftar_donasi_id' => $idDonasi,
          'snap_token' => $request->snapToken,
@@ -77,7 +77,19 @@ class MemberController extends Controller
       $daftarDonasi->total_donasi += $transaksi['gross_amount'];
       $daftarDonasi->save();
 
-      // return $donasi->kode_donasi;
-      return \redirect('/user-donasi/riwayat/'.$donasi->kode_donasi);
+      // return \redirect('/riwayat/invoice/'.$donasi->kode_donasi);
+      return $donasi->kode_donasi;
+    }
+
+    public function invoice(){
+      return \view('member.riwayat.invoice',[
+         'invoices' => Donasi::where('user_id',Auth::user()->id)->get(),
+      ]);
+    }
+
+    public function invoiceDetail($kode){
+      return \view('member.riwayat.detail',[
+         'invoice' => Donasi::where('kode_donasi',$kode)->first(),
+      ]);
     }
 }

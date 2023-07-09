@@ -9,4 +9,8 @@ class Donasi extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+public function daftar(){
+    return $this->belongsTo(DaftarDonasi::class, 'daftar_donasi_id');
+}
 }

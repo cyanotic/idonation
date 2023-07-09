@@ -7,10 +7,11 @@ function submitDel(id) {
 }
 
 $('#tombol-form-donasi').on('click',function(){
+    const idDaftar = $('input#id_daftar_donasi').val()
     $.post("/user-donasi/kirim-donasi", {
         _method: 'POST',
         _token: $('meta[name="csrf-token"]').attr('content'),
-       id_daftar_donasi: $('input#id_daftar_donasi').val(),
+       id_daftar_donasi: idDaftar,
         jumlah_donasi: $('input#jumlah_donasi').val(),
     },
     function(response){
@@ -38,6 +39,6 @@ function sendResponse(response,idDonasi,snapToken){
           snapToken:snapToken
         },
         function(response) {
-            window.location.href = "/user-donasi/riwayat/"+response;
+            window.location.href = "/riwayat/invoice/"+response;
         });
     }

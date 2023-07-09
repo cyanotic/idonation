@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 @section('content')
 <section class="section">
@@ -28,7 +29,7 @@
                         @endif
                     </div>
                     <div class="article-badge">
-                        <div class="article-badge-item bg-primary"> {{ $donasi->kategori->kategori }}</div>
+                        <div class="article-badge-item bg-primary"> Rp{{ number_format($donasi->total_donasi, 2, ',', '.');  }}</div>
                     </div>
             </div>
             <div class="article-details">

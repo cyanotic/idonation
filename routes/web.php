@@ -50,5 +50,6 @@ Route::get('/user-donasi',[MemberController::class,'index']);
 Route::get('/user-donasi/{daftardonasi}',[MemberController::class,'show']);
 Route::post('/user-donasi/kirim-donasi',[MemberController::class,'kirimDonasi']);
 Route::post('/user-donasi/notification',[MemberController::class,'notifikasi']);
-Route::get('/user-donasi/riwayat/{kode}',[MemberController::class]);
+Route::get('/riwayat/invoice/{kode}',[MemberController::class,'invoiceDetail']);
+Route::get('/riwayat/invoice',[MemberController::class,'invoice']);
 
