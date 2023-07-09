@@ -30,8 +30,7 @@
 
   <!-- Page Specific JS File -->
   <script src="{{ asset('assets/js/page/index.js') }}"></script>
-<script>
-
-</script>
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+  data-client-key={{ config('midtrans.client_key') }}></script>
 </body>
 </html>

@@ -48,3 +48,4 @@ Route::resource('/dashboard/daftar-donasi',DaftarDonasiController::class);
 
 Route::get('/user-donasi',[MemberController::class,'index']);
 Route::get('/user-donasi/{daftardonasi}',[MemberController::class,'show']);
+Route::post('/user-donasi/kirim-donasi',[MemberController::class,'kirimDonasi']);

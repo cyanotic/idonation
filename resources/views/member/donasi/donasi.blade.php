@@ -56,11 +56,12 @@
         </div>
         <div class="modal-body">
          <form action="" method="post" id="form-donasi">
-            <input type="hidden" name="daftar_donasi" id="daftar_donasi" value="{{ $donasi->id }}">
+            @csrf
+            <input type="hidden" name="daftar_donasi" id="id_daftar_donasi" value="{{ $donasi->id }}">
             <input type="number" class="form-control" placeholder="Jumlah Donasi" name="jumlah_donasi" id="jumlah_donasi">
         </div>
         <div class="modal-footer bg-whitesmoke br">
-            <button type="button" class="btn btn-success">Kirim</button>
+            <button type="button" class="btn btn-success" id="tombol-form-donasi">Kirim</button>
           </div>
         </form>
       </div>
