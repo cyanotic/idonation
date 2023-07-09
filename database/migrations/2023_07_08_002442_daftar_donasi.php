@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignIdFor(Kategori::class);
             $table->string('judul');
             $table->text('deskripsi');
+            $table->string('excerpt');
             $table->integer('total_donasi')->default(0);
             $table->string('foto')->default('default.jpg');
             $table->timestamps();

@@ -3,10 +3,11 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DaftarDonasiController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\VerifikasiController;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\DaftarDonasi;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,10 +37,14 @@ Route::get('/email/verify/{id}/{hash}',[VerifikasiController::class,'verify'])->
 Route::get('/email/verify/resend-verifikasi',[VerifikasiController::class,'send'])->middleware(['auth','throttle:6,1'])->name('verification.send');
 
 //jika sudah login dan verifikasi
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth');
+
 Route::middleware(['auth','auth.session','verified','admin'])->group(function(){
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    });
 Route::resource('/dashboard/kategori',KategoriController::class);
 Route::resource('/dashboard/daftar-donasi',DaftarDonasiController::class);
 });
+
+Route::get('/user-donasi',[MemberController::class,'index']);
+Route::get('/user-donasi/{daftardonasi}',[MemberController::class,'show']);

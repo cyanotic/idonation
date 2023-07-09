@@ -6,7 +6,7 @@ use App\Models\DaftarDonasi;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Str;
 class DaftarDonasiController extends Controller
 {
     /**
@@ -50,6 +50,7 @@ class DaftarDonasiController extends Controller
         if($request->file('foto')){
             $validateData['foto'] = $request->file('foto')->store('foto-donasi');
         }
+        $validateData['excerpt'] = Str::limit(strip_tags($request->deskripsi), 30);
         DaftarDonasi::create($validateData);
         return \redirect('/dashboard/daftar-donasi')->with('alert', 'Data Berhasil Ditambah');
     }
@@ -100,6 +101,7 @@ class DaftarDonasiController extends Controller
             }
             $validateData['foto'] = $request->file('foto')->store('foto-donasi');
         }
+        $validateData['excerpt'] = Str::limit(strip_tags($request->deskripsi), 30);
         DaftarDonasi::where('id',$daftarDonasi->id)->update($validateData);
         return \redirect('/dashboard/daftar-donasi')->with('alert', 'Data Berhasil Diupdate');
     }
