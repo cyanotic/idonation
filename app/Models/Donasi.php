@@ -13,4 +13,7 @@ class Donasi extends Model
 public function daftar(){
     return $this->belongsTo(DaftarDonasi::class, 'daftar_donasi_id');
 }
+public function user(){
+    return $this->belongsTo(User::class);
+}
 }
