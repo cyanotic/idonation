@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\RiwayatDonasiController;
 use App\Http\Controllers\VerifikasiController;
 use Illuminate\Support\Facades\Route;
 use App\Models\DaftarDonasi;
@@ -40,9 +41,11 @@ Route::get('/email/verify/resend-verifikasi',[VerifikasiController::class,'send'
 //jika sudah login dan verifikasi
 Route::get('/dashboard', [DashboardController::class,'index'])->middleware('auth');
 
+//jika admin
 Route::middleware(['auth','auth.session','verified','admin'])->group(function(){
-Route::resource('/dashboard/kategori',KategoriController::class);
-Route::resource('/dashboard/daftar-donasi',DaftarDonasiController::class);
+    Route::resource('/dashboard/kategori',KategoriController::class);
+    Route::resource('/dashboard/daftar-donasi',DaftarDonasiController::class);
+    Route::get('/dashboard/riwayat-donasi',[RiwayatDonasiController::class,'index']);
 });
 
 Route::get('/user-donasi',[MemberController::class,'index']);
