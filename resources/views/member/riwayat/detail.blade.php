@@ -94,10 +94,9 @@
         <hr>
         <div class="text-md-right">
           <div class="float-lg-left mb-lg-0 mb-3">
-            <button class="btn btn-primary btn-icon icon-left"><i class="fas fa-credit-card"></i> Process Payment</button>
-            <button class="btn btn-danger btn-icon icon-left"><i class="fas fa-times"></i> Cancel</button>
+      
           </div>
-          <button class="btn btn-warning btn-icon icon-left"><i class="fas fa-print"></i> Print</button>
+          <a href="/invoice/print/{{ $invoice->kode_donasi }}" class="btn btn-warning btn-icon icon-left" target="_blank"><i class="fas fa-print"></i> Print</a>
         </div>
       </div>
     </div>

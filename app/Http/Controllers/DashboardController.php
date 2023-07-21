@@ -8,6 +8,7 @@ use App\Models\Donasi;
 use App\Models\Kategori;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -47,35 +48,73 @@ class DashboardController extends Controller
 
 public function filterDonasi(Request $request)
 {
-    $bulan = $request->bulan;
-    $tahun = \date('Y');
-
-    $startDate = Carbon::createFromDate($tahun, $bulan, 1)->startOfMonth();
-    $endDate = Carbon::createFromDate($tahun, $bulan, 1)->endOfMonth();
-
-    // Query pertama untuk mendapatkan total donasi pada bulan yang dipilih
-    $totalDonasi = Donasi::whereBetween('created_at', [$startDate, $endDate])
-        ->sum('jumlah');
-
-    // Query kedua untuk mendapatkan jumlah data per status pada bulan yang dipilih
-    $jumlahPending = Donasi::whereBetween('created_at', [$startDate, $endDate])
-        ->where('status', 'pending')
-        ->count();
-
-    $jumlahSettlement = Donasi::whereBetween('created_at', [$startDate, $endDate])
-        ->where('status', 'settlement')
-        ->count();
-
-    $jumlahExpired = Donasi::whereBetween('created_at', [$startDate, $endDate])
-        ->where('status', 'expire')
-        ->count();
-
-    return [
-        'total_donasi' => $totalDonasi,
-        'jumlah_pending' => $jumlahPending,
-        'jumlah_settlement' => $jumlahSettlement,
-        'jumlah_expired' => $jumlahExpired,
-    ];
+    if(Auth::user()->is_admin == 1){
+        $bulan = $request->bulan;
+        $tahun = \date('Y');
+    
+        $startDate = Carbon::createFromDate($tahun, $bulan, 1)->startOfMonth();
+        $endDate = Carbon::createFromDate($tahun, $bulan, 1)->endOfMonth();
+    
+        // Query pertama untuk mendapatkan total donasi pada bulan yang dipilih
+        $totalDonasi = Donasi::whereBetween('created_at', [$startDate, $endDate])
+            ->sum('jumlah');
+    
+        // Query kedua untuk mendapatkan jumlah data per status pada bulan yang dipilih
+        $jumlahPending = Donasi::whereBetween('created_at', [$startDate, $endDate])
+            ->where('status', 'pending')
+            ->count();
+    
+        $jumlahSettlement = Donasi::whereBetween('created_at', [$startDate, $endDate])
+            ->where('status', 'settlement')
+            ->count();
+    
+        $jumlahExpired = Donasi::whereBetween('created_at', [$startDate, $endDate])
+            ->where('status', 'expire')
+            ->count();
+    
+        return [
+            'total_donasi' => $totalDonasi,
+            'jumlah_pending' => $jumlahPending,
+            'jumlah_settlement' => $jumlahSettlement,
+            'jumlah_expired' => $jumlahExpired,
+        ];
+    }else{
+        $userId = auth()->user()->id;
+        $bulan = $request->bulan;
+        $tahun = \date('Y');
+    
+        $startDate = Carbon::createFromDate($tahun, $bulan, 1)->startOfMonth();
+        $endDate = Carbon::createFromDate($tahun, $bulan, 1)->endOfMonth();
+    
+        // Query pertama untuk mendapatkan total donasi pada bulan yang dipilih
+        $totalDonasi = Donasi::where('user_id', $userId)
+             ->whereBetween('created_at', [$startDate, $endDate])
+            ->sum('jumlah');
+    
+        // Query kedua untuk mendapatkan jumlah data per status pada bulan yang dipilih
+        $jumlahPending = Donasi::whereBetween('created_at', [$startDate, $endDate])
+            ->where('status', 'pending')
+            ->where('user_id', $userId)
+            ->count();
+    
+        $jumlahSettlement = Donasi::whereBetween('created_at', [$startDate, $endDate])
+            ->where('status', 'settlement')
+            ->where('user_id', $userId)
+            ->count();
+    
+        $jumlahExpired = Donasi::whereBetween('created_at', [$startDate, $endDate])
+            ->where('status', 'expire')
+            ->where('user_id', $userId)
+            ->count();
+    
+        return [
+            'total_donasi' => $totalDonasi,
+            'jumlah_pending' => $jumlahPending,
+            'jumlah_settlement' => $jumlahSettlement,
+            'jumlah_expired' => $jumlahExpired,
+        ];
+    }
+  
 }
 
 }

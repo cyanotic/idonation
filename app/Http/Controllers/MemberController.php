@@ -8,6 +8,7 @@ use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Barryvdh\DomPDF\Facade\Pdf;
 class MemberController extends Controller
 {
     public function index(){
@@ -121,6 +122,15 @@ class MemberController extends Controller
       }
 
       }
+    }
+
+    public function printInvoice($kode){
+  
+      $data = Donasi::where('kode_donasi',$kode)->get();
+    $pdf = Pdf::loadView('member.riwayat.print',[
+      'data' =>$data
+    ] );
+    return $pdf->stream('invoice.pdf');
     }
 }
 

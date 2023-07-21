@@ -54,6 +54,6 @@ Route::post('/user-donasi/kirim-donasi',[MemberController::class,'kirimDonasi'])
 Route::post('/user-donasi/notification',[MemberController::class,'notifikasi']);
 Route::get('/riwayat/invoice/{kode}',[MemberController::class,'invoiceDetail']);
 Route::get('/riwayat/invoice',[MemberController::class,'invoice']);
-
+Route::get('/invoice/print/{kode}',[MemberController::class,'printInvoice']);
 Route::get('/donasi-chart',[DashboardController::class,'grafik']);
 Route::get('/filter-donasi',[DashboardController::class,'filterDonasi']);
